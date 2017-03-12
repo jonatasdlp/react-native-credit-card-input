@@ -68,14 +68,14 @@ export default class CreditCardInput extends Component {
   static defaultProps = {
     cardViewSize: {},
     labels: {
-      name: "CARDHOLDER'S NAME",
-      number: "CARD NUMBER",
-      expiry: "EXPIRY",
+      name: "NOME ESCRITO NO CARTÃO",
+      number: "NÚMERO DO CARTÃO",
+      expiry: "EXPIRAÇÃO",
       cvc: "CVC/CCV",
-      postalCode: "POSTAL CODE",
+      postalCode: "CEP",
     },
     placeholders: {
-      name: "Full Name",
+      name: "Nome Completo",
       number: "1234 5678 1234 5678",
       expiry: "MM/YY",
       cvc: "CVC",
