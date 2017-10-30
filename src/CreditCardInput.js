@@ -21,11 +21,10 @@ const s = StyleSheet.create({
     marginTop: 20,
   },
   inputContainer: {
-    marginLeft: 0,
+    marginLeft: 20,
   },
   inputLabel: {
     fontWeight: "bold",
-    marginTop: 10,
   },
   input: {
     height: 40,
@@ -84,7 +83,7 @@ export default class CreditCardInput extends Component {
     },
     inputContainerStyle: {
       borderBottomWidth: 1,
-      borderBottomColor: "black",
+      borderBottomColor: "#DFDFDF",
     },
     validColor: "",
     invalidColor: "red",
@@ -108,9 +107,10 @@ export default class CreditCardInput extends Component {
     NativeModules.UIManager.measureLayoutRelativeToParent(nodeHandle,
       e => { throw e; },
       x => {
+        scrollResponder.scrollTo({ x: Math.max(x - PREVIOUS_FIELD_OFFSET, 0), animated: true });
         this.refs[field].focus();
       });
-  };
+  }
 
   _inputProps = field => {
     const {
@@ -148,37 +148,33 @@ export default class CreditCardInput extends Component {
     return (
       <View style={s.container}>
         <CreditCard focused={focused}
-            brand={type}
-            scale={cardScale}
-            fontFamily={cardFontFamily}
-            imageFront={cardImageFront}
-            imageBack={cardImageBack}
-            customIcons={cardBrandIcons}
-            name={requiresName ? name : " "}
-            number={number}
-            expiry={expiry}
-            cvc={cvc} />
+                    brand={type}
+                    scale={cardScale}
+                    fontFamily={cardFontFamily}
+                    imageFront={cardImageFront}
+                    imageBack={cardImageBack}
+                    customIcons={cardBrandIcons}
+                    name={requiresName ? name : " "}
+                    number={number}
+                    expiry={expiry}
+                    cvc={cvc} />
         <ScrollView ref="Form"
-            horizontal
-            keyboardShouldPersistTaps="always"
-            style={s.form}>
-          <View style={{ flex: 1 }}>
-            <CCInput {...this._inputProps("number")}
-                     containerStyle={[s.inputContainer, inputContainerStyle, { width: CARD_NUMBER_INPUT_WIDTH }]} />
-            { requiresName &&
-            <CCInput {...this._inputProps("name")}
-                     keyboardType="default"
-                     containerStyle={[s.inputContainer, inputContainerStyle, { width: NAME_INPUT_WIDTH }]} /> }
-
-            <View style={{ flexDirection: 'row' }}>
-              <CCInput {...this._inputProps("expiry")}
-                       containerStyle={[s.inputContainer, inputContainerStyle, { width: EXPIRY_INPUT_WIDTH }]} />
-
-              { requiresCVC &&
-              <CCInput {...this._inputProps("cvc")}
-                       containerStyle={[s.inputContainer, inputContainerStyle, { width: CVC_INPUT_WIDTH }]} /> }
-            </View>
-          </View>
+                    horizontal
+                    keyboardShouldPersistTaps="always"
+                    scrollEnabled={allowScroll}
+                    showsHorizontalScrollIndicator={false}
+                    style={s.form}>
+          <CCInput {...this._inputProps("number")}
+                   containerStyle={[s.inputContainer, inputContainerStyle, { width: CARD_NUMBER_INPUT_WIDTH }]} />
+          <CCInput {...this._inputProps("expiry")}
+                   containerStyle={[s.inputContainer, inputContainerStyle, { width: EXPIRY_INPUT_WIDTH }]} />
+          { requiresCVC &&
+          <CCInput {...this._inputProps("cvc")}
+                   containerStyle={[s.inputContainer, inputContainerStyle, { width: CVC_INPUT_WIDTH }]} /> }
+          { requiresName &&
+          <CCInput {...this._inputProps("name")}
+                   keyboardType="default"
+                   containerStyle={[s.inputContainer, inputContainerStyle, { width: NAME_INPUT_WIDTH }]} /> }
         </ScrollView>
       </View>
     );
