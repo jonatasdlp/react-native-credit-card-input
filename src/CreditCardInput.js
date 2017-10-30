@@ -21,10 +21,11 @@ const s = StyleSheet.create({
     marginTop: 20,
   },
   inputContainer: {
-    marginLeft: 20,
+    marginLeft: 0,
   },
   inputLabel: {
     fontWeight: "bold",
+    marginTop: 10,
   },
   input: {
     height: 40,
@@ -68,15 +69,15 @@ export default class CreditCardInput extends Component {
   static defaultProps = {
     cardViewSize: {},
     labels: {
-      name: "NOME ESCRITO NO CARTÃO",
-      number: "NÚMERO DO CARTÃO",
-      expiry: "VALIDADE",
+      name: "Nome no cartão",
+      number: "Número do cartão",
+      expiry: "Validade",
       cvc: "CVC/CCV",
       postalCode: "CEP",
     },
     placeholders: {
       name: "Nome Completo",
-      number: "1234 5678 1234 5678",
+      number: "0000 0000 0000 0000",
       expiry: "MM/YY",
       cvc: "CVC",
       postalCode: "34567",
@@ -107,10 +108,9 @@ export default class CreditCardInput extends Component {
     NativeModules.UIManager.measureLayoutRelativeToParent(nodeHandle,
       e => { throw e; },
       x => {
-        scrollResponder.scrollTo({ x: Math.max(x - PREVIOUS_FIELD_OFFSET, 0), animated: true });
         this.refs[field].focus();
       });
-  }
+  };
 
   _inputProps = field => {
     const {
@@ -161,23 +161,24 @@ export default class CreditCardInput extends Component {
         <ScrollView ref="Form"
             horizontal
             keyboardShouldPersistTaps="always"
-            scrollEnabled={allowScroll}
-            showsHorizontalScrollIndicator={false}
             style={s.form}>
-          <CCInput {...this._inputProps("number")}
-              containerStyle={[s.inputContainer, inputContainerStyle, { width: CARD_NUMBER_INPUT_WIDTH }]} />
-          <CCInput {...this._inputProps("expiry")}
-              containerStyle={[s.inputContainer, inputContainerStyle, { width: EXPIRY_INPUT_WIDTH }]} />
-          { requiresCVC &&
-            <CCInput {...this._inputProps("cvc")}
-                containerStyle={[s.inputContainer, inputContainerStyle, { width: CVC_INPUT_WIDTH }]} /> }
-          { requiresName &&
+          <View style={{ flex: 1 }}>
+            <CCInput {...this._inputProps("number")}
+                     containerStyle={[s.inputContainer, inputContainerStyle, { width: CARD_NUMBER_INPUT_WIDTH }]} />
+            { requiresName &&
             <CCInput {...this._inputProps("name")}
-                keyboardType="default"
-                containerStyle={[s.inputContainer, inputContainerStyle, { width: NAME_INPUT_WIDTH }]} /> }
-          { requiresPostalCode &&
-            <CCInput {...this._inputProps("postalCode")}
-                containerStyle={[s.inputContainer, inputContainerStyle, { width: POSTAL_CODE_INPUT_WIDTH }]} /> }
+                     keyboardType="default"
+                     containerStyle={[s.inputContainer, inputContainerStyle, { width: NAME_INPUT_WIDTH }]} /> }
+
+            <View style={{ flexDirection: 'row' }}>
+              <CCInput {...this._inputProps("expiry")}
+                       containerStyle={[s.inputContainer, inputContainerStyle, { width: EXPIRY_INPUT_WIDTH }]} />
+
+              { requiresCVC &&
+              <CCInput {...this._inputProps("cvc")}
+                       containerStyle={[s.inputContainer, inputContainerStyle, { width: CVC_INPUT_WIDTH }]} /> }
+            </View>
+          </View>
         </ScrollView>
       </View>
     );
