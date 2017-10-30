@@ -96,7 +96,7 @@ export default class CardView extends Component {
     name: "",
     placeholder: {
       number: "•••• •••• •••• ••••",
-      name: "FULL NAME",
+      name: "",
       expiry: "••/••",
       cvc: "•••",
     },
