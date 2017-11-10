@@ -95,8 +95,8 @@ export default class CardView extends Component {
   static defaultProps = {
     name: "",
     placeholder: {
-      number: "•••• •••• •••• ••••",
-      name: "",
+      number: "•••• •• •••• ••••",
+      name: '',
       expiry: "••/••",
       cvc: "•••",
     },
