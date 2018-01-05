@@ -142,6 +142,7 @@ const POSTAL_CODE_INPUT_WIDTH = 120; // https://github.com/yannickcr/eslint-plug
     } = this.props;
 
     return {
+      accessibilityLabel: `cc_${field}`,
       inputStyle: [s.input, inputStyle],
       labelStyle: [s.inputLabel, labelStyle],
       validColor,
